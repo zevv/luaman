@@ -2,11 +2,13 @@
 
 fd_out = nil
 
+version = arg[1]
+
 function w(...)
 	fd_out:write(string.format(...) .. "\n")
 end
 
-fd = io.open("manual.html")
+fd = io.open(version .. "/manual.html")
 html = fd:read("*a")
 fd:close()
 
@@ -18,8 +20,8 @@ while true do
 	print(name)
 
 
-	fd_out = io.open("man3/" .. name .. ".3", "w")
-	w('.TH %s 3 "2010" "Lua 5.1" "Lua 5.1 manual"', name:upper())
+	fd_out = io.open(version .. "/man3/" .. name .. ".3", "w")
+	w('.TH %s 3 "2012" "Lua ' .. version .. '" "Lua ' ..version .. ' manual"', name:upper())
 	w('.SH NAME')
 	w(name)
 
@@ -49,9 +51,11 @@ while true do
 
 	desc = desc:gsub("<hr>", "")
 	desc = desc:gsub("&sect;", "#")
+	desc = desc:gsub("&#8211;", "-")
 	desc = desc:gsub("&nbsp;", " ")
 	desc = desc:gsub("<a.->(.-)</a>", "%1")
 	desc = desc:gsub("<p>", "\n.br\n")
+	desc = desc:gsub("</p>", "")
 	desc = desc:gsub("</?ul>", "")
 	desc = desc:gsub("<li>(.-)</li>", "%1")
 	desc = desc:gsub("<b>(.-)</b> *", "\n.B %1\n")
