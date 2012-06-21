@@ -16,9 +16,15 @@ fd:close()
 
 while true do
 	name, html = html:match('<a name=".-"><code>(.-)</code></a></h3>(.*)')
+	
+	html = html:gsub("&sect;", "#")
+	html = html:gsub("&lt;", "<")
+	html = html:gsub("&gt;", ">")
+	html = html:gsub("&amp;", "&")
+	html = html:gsub("&#8211;", "-")
+	html = html:gsub("&nbsp;", " ")
 
 	print(name)
-
 
 	fd_out = io.open(version .. "/man3/" .. name .. ".3", "w")
 	w('.TH %s 3 "2012" "Lua ' .. version .. '" "Lua ' ..version .. ' manual"', name:upper())
@@ -50,19 +56,21 @@ while true do
 	if not desc then break end
 
 	desc = desc:gsub("<hr>", "")
-	desc = desc:gsub("&sect;", "#")
-	desc = desc:gsub("&#8211;", "-")
-	desc = desc:gsub("&nbsp;", " ")
-	desc = desc:gsub("<a.->(.-)</a>", "%1")
-	desc = desc:gsub("<p>", "\n.br\n")
+	desc = desc:gsub("</?a ?[^>]*>", "")
+	desc = desc:gsub("<p>", "\n.P\n")
 	desc = desc:gsub("</p>", "")
 	desc = desc:gsub("</?ul>", "")
-	desc = desc:gsub("<li>(.-)</li>", "%1")
-	desc = desc:gsub("<b>(.-)</b> *", "\n.B %1\n")
-	desc = desc:gsub("<em>(.-)</em> *", "\n.B %1\n")
-	desc = desc:gsub("<pre>(.-)</pre>", ".nf%1.fi")
+	desc = desc:gsub("<li><b><code>([^<]+)</code>: </b>", "\n.IP \\[bu]\n%1 ")
+	desc = desc:gsub("<li><b>'<code>(.-)</code>': </b>", "\n.IP \\[bu]\n'%1' ")
+	desc = desc:gsub("<li>(.-)</li>", "\n.IP \\[bu]\n%1")
+	desc = desc:gsub("</li>", "")
 	desc = desc:gsub("<code>(.-)</code> *", "\n.I %1\n")
-	desc = desc:gsub("\n\n", "\n")
+	desc = desc:gsub("<b>(.-)</b> *", "\n.B %1")
+	desc = desc:gsub("<em>(.-)</em> *", "\n.B %1\n")
+	desc = desc:gsub("<pre>(.-)</pre>", "\n.nf\n%1.fi\n")
+	desc = desc:gsub("\n+", "\n")
+	desc = desc:gsub("'", "\\(cq")
+	desc = desc:gsub("\n%.", "\n\\.")
 
 	w("%s", desc)
 	
