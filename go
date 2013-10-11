@@ -26,6 +26,7 @@ while true do
 
 	print(name)
 
+	os.execute("mkdir -p " .. version .. "/man3")
 	fd_out = io.open(version .. "/man3/" .. name .. ".3", "w")
 	w('.TH %s 3 "2012" "Lua ' .. version .. '" "Lua ' ..version .. ' manual"', name:upper())
 	w('.SH NAME')
