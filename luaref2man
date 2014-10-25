@@ -132,11 +132,6 @@ function gen_asciidoc(title, html)
 		end
 	end)
 
-	p("\n")
-	p(":man source:   AsciiDoc\n")
-	p(":man version:  1.2.3\n")
-	p(":man manual:   AsciiDoc Manual\n")
-	p("")
 	fd:close()
 
 end
