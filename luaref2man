@@ -47,6 +47,7 @@ function read_html(url)
 	local esc = {
 		ndash = "-", middot = "·", nbsp = " ", sect = "§", amp = "&", le = "≤",
 		lt = "<", gt = ">", copy = "©", lsquo = "‘", rsquo = "’", acute = "´",
+		pi = "π",
 	}
 	local fd = io.popen("curl -s " .. url .. " | tidy -wrap 9999 -q -i -asxml", "r")
 	local html = fd:read("*a")
