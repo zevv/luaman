@@ -28,9 +28,13 @@ while true do
 
 	os.execute("mkdir -p " .. version .. "/man3")
 	fd_out = io.open(version .. "/man3/" .. name .. ".3", "w")
-	w('.TH %s 3 "2012" "Lua ' .. version .. '" "Lua ' ..version .. ' manual"', name:upper())
-	w('.SH NAME')
-	w(name)
+	-- hardcoded to Lua-5.2 release date
+	w('.Dd December 16, 2011')
+	w('.Dt ' .. name:upper() .. ' 3')
+	w('.Os')
+	w('.Sh NAME')
+	w('.Nm ' .. name)
+	-- XXX: w('.Nd ' .. description)
 
 	api = nil
 	api, tmp = html:match('^<p>\n<span class="apii">(.-)</span>(.*)')
@@ -40,38 +44,47 @@ while true do
 	end
 
 	proto, html = html:match("<pre>(.-)</pre>(.*)")
-	w('.SH SYNOPSIS')
-	for l in proto:gmatch("([^\n]+)") do
-		w('.B " %s', l)
-		w('.br')
+	w('.Sh SYNOPSIS')
+	for l, m, o in proto:gmatch("([^ ]+)[ ]+([^%( ]+)[ ]*%(([^\n]+)") do
+		w('.Ft ' .. l)
+		w('.Fo ' .. m)
+		for arg in o:gmatch("([^,%)]+)[,%) ]+") do
+			w('.Fa "' .. arg .. '"')
+		end
+		w('.Fc')
+	-- XXX: replace (type arg, type2 arg2, ...., typen argn)
+	-- with "type arg" "type2 arg2" ... "typen argn"
 	end
-	w('.br\n')
-	if api then
-		w('%s\n', api)
-		w('.br\n')
-	end
+--	XXX: not sure what this is
+--	w('.br\n')
+--	if api then
+--		w('%s\n', api)
+--		w('.br\n')
+--	end
 	
 	desc, html = html:match("(.-)<h3>(.*)")
-	w('.SH DESCRIPTION')
+	w('.Sh DESCRIPTION')
 
 	if not desc then break end
 
 	desc = desc:gsub("<hr>", "")
 	desc = desc:gsub("</?a ?[^>]*>", "")
-	desc = desc:gsub("<p>", "\n.P\n")
+	desc = desc:gsub("<p>", "\n.Pp\n")
 	desc = desc:gsub("</p>", "")
-	desc = desc:gsub("</?ul>", "")
-	desc = desc:gsub("<li><b><code>([^<]+)</code>: </b>", "\n.IP \\[bu]\n%1 ")
-	desc = desc:gsub("<li><b>'<code>(.-)</code>': </b>", "\n.IP \\[bu]\n'%1' ")
-	desc = desc:gsub("<li>(.-)</li>", "\n.IP \\[bu]\n%1")
+	desc = desc:gsub("<ul>", ".Bl -bullet -offset indent")
+	desc = desc:gsub("</ul>", ".El")
+	desc = desc:gsub("<li><b><code>([^<]+)</code>: </b>", "\n.It\n.Dl %1 ")
+	desc = desc:gsub("<li><b>'<code>(.-)</code>': </b>", "\n.It\n.Dl '%1' ")
+	desc = desc:gsub("<li>(.-)</li>", "\n.It\n%1")
 	desc = desc:gsub("</li>", "")
-	desc = desc:gsub("<code>(.-)</code> *", "\n.I %1\n")
-	desc = desc:gsub("<b>(.-)</b> *", "\n.B %1")
-	desc = desc:gsub("<em>(.-)</em> *", "\n.B %1\n")
-	desc = desc:gsub("<pre>(.-)</pre>", "\n.nf\n%1.fi\n")
+	desc = desc:gsub("'<code>(.-)</code>' *", "\n.Sq %1\n")
+	desc = desc:gsub("<code>(.-)</code> *", "\n.Dl %1\n")
+	--desc = desc:gsub("<b>(.-)</b> *", "\n.B %1")
+	--desc = desc:gsub("<em>(.-)</em> *", "\n.B %1\n")
+	desc = desc:gsub("<pre>(.-)</pre>", ".Bd -literal\n%1\n.Ed\n")
 	desc = desc:gsub("\n+", "\n")
-	desc = desc:gsub("'", "\\(cq")
-	desc = desc:gsub("\n%.", "\n\\.")
+	--desc = desc:gsub("'", "\\(cq")
+	--desc = desc:gsub("\n%.", "\n\\.")
 
 	w("%s", desc)
 	
