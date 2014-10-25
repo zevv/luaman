@@ -1,0 +1,2 @@
+Simple script for converting Lua reference guide to unix man pages.
+There's no proper error reporting in here, sorry for that.
