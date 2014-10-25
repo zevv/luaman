@@ -1,0 +1,50 @@
+'\" t
+.\"     Title: lua_pushcfunction
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_PUSHCFUNCTION" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_pushcfunction \- lua_pushcfunction
+.SH "SYNOPSIS"
+.sp
+[\-0, +1, \(en]
+.sp
+.nf
+ void lua_pushcfunction (lua_State *L, lua_CFunction f);
+.fi
+.sp
+Pushes a C function onto the stack\&. This function receives a pointer to a C function and pushes onto the stack a Lua value of type \fBfunction\fR that, when called, invokes the corresponding C function\&.
+.sp
+Any function to be registered in Lua must follow the correct protocol to receive its parameters and return its results (see \fBlua_CFunction\fR)\&.
+.sp
+\fBlua_pushcfunction\fR is defined as a macro:
+.sp
+.nf
+      #define lua_pushcfunction(L,f)  lua_pushcclosure(L,f,0)
+.fi
+.sp
+Note that \fBf\fR is used twice\&.

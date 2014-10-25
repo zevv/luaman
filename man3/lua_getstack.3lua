@@ -1,0 +1,42 @@
+'\" t
+.\"     Title: lua_getstack
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_GETSTACK" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_getstack \- lua_getstack
+.SH "SYNOPSIS"
+.sp
+[\-0, +0, \(en]
+.sp
+.nf
+ int lua_getstack (lua_State *L, int level, lua_Debug *ar);
+.fi
+.sp
+Gets information about the interpreter runtime stack\&.
+.sp
+This function fills parts of a \fBlua_Debug\fR structure with an identification of the activation record of the function executing at a given level\&. Level 0 is the current running function, whereas level n+1 is the function that has called level n (except for tail calls, which do not count on the stack)\&. When there are no errors, \fBlua_getstack\fR returns 1; when called with a level greater than the stack depth, it returns 0\&.

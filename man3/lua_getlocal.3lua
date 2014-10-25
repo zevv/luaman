@@ -1,0 +1,48 @@
+'\" t
+.\"     Title: lua_getlocal
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_GETLOCAL" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_getlocal \- lua_getlocal
+.SH "SYNOPSIS"
+.sp
+[\-0, +(0|1), \(en]
+.sp
+.nf
+ const char *lua_getlocal (lua_State *L, lua_Debug *ar, int n);
+.fi
+.sp
+Gets information about a local variable of a given activation record or a given function\&.
+.sp
+In the first case, the parameter \fBar\fR must be a valid activation record that was filled by a previous call to \fBlua_getstack\fR or given as argument to a hook (see \fBlua_Hook\fR)\&. The index \fBn\fR selects which local variable to inspect; see \fBdebug\&.getlocal\fR for details about variable indices and names\&.
+.sp
+\fBlua_getlocal\fR pushes the variable\(cqs value onto the stack and returns its name\&.
+.sp
+In the second case, \fBar\fR must be \fBNULL\fR and the function to be inspected must be at the top of the stack\&. In this case, only parameters of Lua functions are visible (as there is no information about what variables are active) and no values are pushed onto the stack\&.
+.sp
+Returns \fBNULL\fR (and pushes nothing) when the index is greater than the number of active local variables\&.

@@ -1,0 +1,222 @@
+'\" t
+.\"     Title: lua_debug
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_DEBUG" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_Debug \- lua_Debug
+.SH "SYNOPSIS"
+.sp
+.nf
+ typedef struct lua_Debug {
+   int event;
+   const char *name;           /* (n) */
+   const char *namewhat;       /* (n) */
+   const char *what;           /* (S) */
+   const char *source;         /* (S) */
+   int currentline;            /* (l) */
+   int linedefined;            /* (S) */
+   int lastlinedefined;        /* (S) */
+   unsigned char nups;         /* (u) number of upvalues */
+   unsigned char nparams;      /* (u) number of parameters */
+   char isvararg;              /* (u) */
+   char istailcall;            /* (t) */
+   char short_src&#91;LUA_IDSIZE&#93;; /* (S) */
+   /* private part */
+    other fields
+ } lua_Debug;
+.fi
+.sp
+A structure used to carry different pieces of information about a function or an activation record\&. \fBlua_getstack\fR fills only the private part of this structure, for later use\&. To fill the other fields of \fBlua_Debug\fR with useful information, call \fBlua_getinfo\fR\&.
+.sp
+The fields of \fBlua_Debug\fR have the following meaning:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBsource\fR: the source of the chunk that created the function\&. If
+\fBsource\fR
+starts with a
+\fI\fB@\fR\fR, it means that the function was defined in a file where the file name follows the
+\fI\fB@\fR\fR\&. If
+\fBsource\fR
+starts with a
+\fI\fB=\fR\fR, the remainder of its contents describe the source in a user\-dependent manner\&. Otherwise, the function was defined in a string where
+\fBsource\fR
+is that string\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBshort_src\fR: a "printable" version of
+\fBsource\fR, to be used in error messages\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBlinedefined\fR: the line number where the definition of the function starts\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBlastlinedefined\fR: the line number where the definition of the function ends\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBwhat\fR: the string
+\fB"Lua"\fR
+if the function is a Lua function,
+\fB"C"\fR
+if it is a C function,
+\fB"main"\fR
+if it is the main part of a chunk\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBcurrentline\fR: the current line where the given function is executing\&. When no line information is available,
+\fBcurrentline\fR
+is set to \-1\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBname\fR: a reasonable name for the given function\&. Because functions in Lua are first\-class values, they do not have a fixed name: some functions can be the value of multiple global variables, while others can be stored only in a table field\&. The
+\fBlua_getinfo\fR
+function checks how the function was called to find a suitable name\&. If it cannot find a name, then
+\fBname\fR
+is set to
+\fBNULL\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBnamewhat\fR: explains the
+\fBname\fR
+field\&. The value of
+\fBnamewhat\fR
+can be
+\fB"global"\fR,
+\fB"local"\fR,
+\fB"method"\fR,
+\fB"field"\fR,
+\fB"upvalue"\fR, or
+\fB""\fR
+(the empty string), according to how the function was called\&. (Lua uses the empty string when no other option seems to apply\&.)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBistailcall\fR: true if this function invocation was called by a tail call\&. In this case, the caller of this level is not in the stack\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBnups\fR: the number of upvalues of the function\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBnparams\fR: the number of fixed parameters of the function (always 0 for C functions)\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBisvararg\fR: true if the function is a vararg function (always true for C functions)\&.
+.RE

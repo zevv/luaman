@@ -1,0 +1,46 @@
+'\" t
+.\"     Title: os.date
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "OS\&.DATE" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+os.date \- os\&.date ([format [, time]])
+.SH "SYNOPSIS"
+.sp
+\fBos\&.date ([format [, time]])\fR
+.sp
+Returns a string or a table containing date and time, formatted according to the given string \fBformat\fR\&.
+.sp
+If the \fBtime\fR argument is present, this is the time to be formatted (see the \fBos\&.time\fR function for a description of this value)\&. Otherwise, \fBdate\fR formats the current time\&.
+.sp
+If \fBformat\fR starts with \fI\fB!\fR\fR, then the date is formatted in Coordinated Universal Time\&. After this optional character, if \fBformat\fR is the string "\fB*t\fR", then \fBdate\fR returns a table with the following fields: \fByear\fR (four digits), \fBmonth\fR (1\(en12), \fBday\fR (1\(en31), \fBhour\fR (0\(en23), \fBmin\fR (0\(en59), \fBsec\fR (0\(en61), \fBwday\fR (weekday, Sunday is 1), \fByday\fR (day of the year), and \fBisdst\fR (daylight saving flag, a boolean)\&. This last field may be absent if the information is not available\&.
+.sp
+If \fBformat\fR is not "\fB*t\fR", then \fBdate\fR returns the date as a string, formatted according to the same rules as the ANSI C function \fBstrftime\fR\&.
+.sp
+When called without arguments, \fBdate\fR returns a reasonable date and time representation that depends on the host system and on the current locale (that is, \fBos\&.date()\fR is equivalent to \fBos\&.date("%c")\fR)\&.
+.sp
+On non\-POSIX systems, this function may be not thread safe because of its reliance on C function \fBgmtime\fR and C function \fBlocaltime\fR\&.

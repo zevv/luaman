@@ -1,0 +1,40 @@
+'\" t
+.\"     Title: next
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "NEXT" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+next \- next (table [, index])
+.SH "SYNOPSIS"
+.sp
+\fBnext (table [, index])\fR
+.sp
+Allows a program to traverse all fields of a table\&. Its first argument is a table and its second argument is an index in this table\&. \fBnext\fR returns the next index of the table and its associated value\&. When called with nil as its second argument, \fBnext\fR returns an initial index and its associated value\&. When called with the last index, or with nil in an empty table, \fBnext\fR returns nil\&. If the second argument is absent, then it is interpreted as nil\&. In particular, you can use \fBnext(t)\fR to check whether a table is empty\&.
+.sp
+The order in which the indices are enumerated is not specified, even for numeric indices\&. (To traverse a table in numeric order, use a numerical for\&.)
+.sp
+The behavior of \fBnext\fR is undefined if, during the traversal, you assign any value to a non\-existent field in the table\&. You may however modify existing fields\&. In particular, you may clear existing fields\&.

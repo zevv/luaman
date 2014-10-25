@@ -1,0 +1,42 @@
+'\" t
+.\"     Title: lual_newstate
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUAL_NEWSTATE" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+luaL_newstate \- luaL_newstate
+.SH "SYNOPSIS"
+.sp
+[\-0, +0, \(en]
+.sp
+.nf
+ lua_State *luaL_newstate (void);
+.fi
+.sp
+Creates a new Lua state\&. It calls \fBlua_newstate\fR with an allocator based on the standard C \fBrealloc\fR function and then sets a panic function (see \(sc4\&.6) that prints an error message to the standard error output in case of fatal errors\&.
+.sp
+Returns the new state, or \fBNULL\fR if there is a memory allocation error\&.

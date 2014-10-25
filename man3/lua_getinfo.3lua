@@ -1,0 +1,147 @@
+'\" t
+.\"     Title: lua_getinfo
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_GETINFO" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_getinfo \- lua_getinfo
+.SH "SYNOPSIS"
+.sp
+[\-(0|1), +(0|1|2), e]
+.sp
+.nf
+ int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar);
+.fi
+.sp
+Gets information about a specific function or function invocation\&.
+.sp
+To get information about a function invocation, the parameter \fBar\fR must be a valid activation record that was filled by a previous call to \fBlua_getstack\fR or given as argument to a hook (see \fBlua_Hook\fR)\&.
+.sp
+To get information about a function you push it onto the stack and start the \fBwhat\fR string with the character \fI\fB>\fR\fR\&. (In that case, \fBlua_getinfo\fR pops the function from the top of the stack\&.) For instance, to know in which line a function \fBf\fR was defined, you can write the following code:
+.sp
+.nf
+      lua_Debug ar;
+      lua_getglobal(L, "f");  /* get global \*(Aqf\*(Aq */
+      lua_getinfo(L, ">S", &ar);
+      printf("%d\en", ar\&.linedefined);
+.fi
+.sp
+Each character in the string \fBwhat\fR selects some fields of the structure \fBar\fR to be filled or a value to be pushed on the stack:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBn\fR\fR: fills in the field
+\fBname\fR
+and
+\fBnamewhat\fR;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBS\fR\fR: fills in the fields
+\fBsource\fR,
+\fBshort_src\fR,
+\fBlinedefined\fR,
+\fBlastlinedefined\fR, and
+\fBwhat\fR;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBl\fR\fR: fills in the field
+\fBcurrentline\fR;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBt\fR\fR: fills in the field
+\fBistailcall\fR;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBu\fR\fR: fills in the fields
+\fBnups\fR,
+\fBnparams\fR, and
+\fBisvararg\fR;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBf\fR\fR: pushes onto the stack the function that is running at the given level;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBL\fR\fR: pushes onto the stack a table whose indices are the numbers of the lines that are valid on the function\&. (A valid line is a line with some associated code, that is, a line where you can put a break point\&. Non\-valid lines include empty lines and comments\&.)
+.RE
+.sp
+If this option is given together with option \fI\fBf\fR\fR, its table is pushed after the function\&.
+.sp
+This function returns 0 on error (for instance, an invalid option in \fBwhat\fR)\&.

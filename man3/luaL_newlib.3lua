@@ -1,0 +1,48 @@
+'\" t
+.\"     Title: lual_newlib
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUAL_NEWLIB" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+luaL_newlib \- luaL_newlib
+.SH "SYNOPSIS"
+.sp
+[\-0, +1, e]
+.sp
+.nf
+ void luaL_newlib (lua_State *L, const luaL_Reg l&#91;&#93;);
+.fi
+.sp
+Creates a new table and registers there the functions in list \fBl\fR\&.
+.sp
+It is implemented as the following macro:
+.sp
+.nf
+      (luaL_newlibtable(L,l), luaL_setfuncs(L,l,0))
+.fi
+.sp
+The array \fBl\fR must be the actual array, not a pointer to it\&.

@@ -1,0 +1,59 @@
+'\" t
+.\"     Title: lua_next
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_NEXT" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_next \- lua_next
+.SH "SYNOPSIS"
+.sp
+[\-1, +(2|0), e]
+.sp
+.nf
+ int lua_next (lua_State *L, int index);
+.fi
+.sp
+Pops a key from the stack, and pushes a key\(envalue pair from the table at the given index (the "next" pair after the given key)\&. If there are no more elements in the table, then \fBlua_next\fR returns 0 (and pushes nothing)\&.
+.sp
+A typical traversal looks like this:
+.sp
+.nf
+      /* table is in the stack at index \*(Aqt\*(Aq */
+      lua_pushnil(L);  /* first key */
+      while (lua_next(L, t) != 0) {
+        /* uses \*(Aqkey\*(Aq (at index \-2) and \*(Aqvalue\*(Aq (at index \-1) */
+        printf("%s \- %s\en",
+               lua_typename(L, lua_type(L, \-2)),
+               lua_typename(L, lua_type(L, \-1)));
+        /* removes \*(Aqvalue\*(Aq; keeps \*(Aqkey\*(Aq for next iteration */
+        lua_pop(L, 1);
+      }
+.fi
+.sp
+While traversing a table, do not call \fBlua_tolstring\fR directly on a key, unless you know that the key is actually a string\&. Recall that \fBlua_tolstring\fR may change the value at the given index; this confuses the next call to \fBlua_next\fR\&.
+.sp
+See function \fBnext\fR for the caveats of modifying the table during its traversal\&.

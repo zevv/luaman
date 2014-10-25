@@ -1,0 +1,154 @@
+#!/usr/bin/env lua5.3
+--
+-- Simple script for converting Lua reference guide to unix man pages.
+-- There's no proper error reporting in here, sorry for that.
+-- 
+-- External requirements:
+--
+-- * curl
+-- * tidy
+-- * asciidoc
+-- * xargs
+--
+
+--
+-- Parse proper XML/HTML and call passed function for each open/closed tag and
+-- all found text
+
+local function parse(s, fn)
+	local stack = {}
+	local ni,c,label,xarg, empty
+	local i, j = 1, 1
+	while true do
+		ni,j,c,label,xarg, empty = string.find(s, "<(%/?)([%w_:]+)(.-)(%/?)>", i)
+		if not ni then break end
+		local text = string.sub(s, i, ni-1)
+		if not string.find(text, "^%s*$") then
+			fn("t", text)
+		end
+		if empty == "/" then
+		elseif c == "" then
+			table.insert(stack, label)   -- new level
+			fn("+", label, table.concat(stack, "."))
+		else 
+			local toclose = table.remove(stack)
+			fn("-", toclose, table.concat(stack, "."))
+		end
+		i = j+1
+	end
+end
+
+
+--
+-- read HTML manual page and convert to proper XML
+--
+
+function read_html(url)
+	local esc = {
+		ndash = "-", middot = "·", nbsp = " ", sect = "§", amp = "&", le = "≤",
+		lt = "<", gt = ">", copy = "©", lsquo = "‘", rsquo = "’",
+	}
+	local fd = io.popen("curl -s " .. url .. " | tidy -wrap 9999 -q -i -asxml", "r")
+	local html = fd:read("*a")
+	fd:close()
+	return html:gsub("&(.-);", function(v) return esc[v] or utf8.char(v:sub(2)) end)
+end
+
+
+--
+-- Find all API sections and pass to function
+--
+
+function find_sections(html, fn)
+	local po, plevel, ptitle = 1, "", ""
+	while true do
+		local o1, o2, level, title = html:find("<h(%d)>(.-)</h%d>", po)
+		if not o1 then break end
+		local name = ptitle:match("<code>(.-)</code>")
+		if level == '3' and name then 
+			fn(name, html:sub(po, o1)) 
+		end
+		po, plevel, ptitle = o2 +1, level, title
+	end
+end
+
+
+--
+-- Generate man page for given section
+--
+
+function gen_asciidoc(title, html)
+	
+	print(title)
+
+	local name = title:match("([%w_%.]+)")
+
+	local fd = io.open("man3/" .. name .. ".txt", "w")
+	local function p(s) fd:write(s) end
+
+	local tmp = name:upper() .. "(3lua)"
+	p(tmp .. "\n")
+	p(string.rep("=", #tmp) .. "\n")
+	p("\n")
+
+	p("== NAME\n");
+	p(name .. " - " .. title .. "\n")
+	p("\n")
+
+	p("== SYNOPSIS\n")
+	p("\n")
+
+	if title:find("%(") then
+		p("*" .. title .. "*")
+		p("\n")
+	end
+
+	local pre
+
+	parse(html, function(what, v)
+		if what == "+" then
+			if v == "p" then p("\n") end
+			if v == "code" then p("*") end
+			if v == "li" then p("- ") end
+			if v == "ul" then p("\n") end
+			if v == "pre" then pre=true p("-----\n") end
+		end
+		if what == "-" then
+			if v == "p" then p("\n") end
+			if v == "code" then p("*") end
+			if v == "ul" then p("\n") end
+			if v == "li" then p("\n") end
+			if v == "pre" then pre=false p("\n-----\n") end
+		end
+		
+		v = v:gsub("%[", "&#91;"):gsub("%]", "&#93;")
+		
+		if pre then
+			v = " " .. v:gsub("[\r\n]", "\n ")
+		end
+
+		if what == "t" then
+			p(v)
+		end
+	end)
+
+	p("\n")
+	p(":man source:   AsciiDoc\n")
+	p(":man version:  1.2.3\n")
+	p(":man manual:   AsciiDoc Manual\n")
+	p("")
+	fd:close()
+
+end
+
+--
+-- Main
+--
+
+local html = read_html(arg[1])
+os.execute("mkdir -p man3")
+find_sections(html, gen_asciidoc)
+os.execute("ls man3/*txt | xargs -n1 -P6 a2x -L --doctype manpage --format manpage")
+os.execute("rm man3/*.txt")
+
+-- vi: ft=lua ts=3 sw=3

@@ -1,0 +1,54 @@
+'\" t
+.\"     Title: package.searchers
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "PACKAGE\&.SEARCHERS" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+package.searchers \- package\&.searchers
+.SH "SYNOPSIS"
+.sp
+A table used by \fBrequire\fR to control how to load modules\&.
+.sp
+Each entry in this table is a searcher function\&. When looking for a module, \fBrequire\fR calls each of these searchers in ascending order, with the module name (the argument given to \fBrequire\fR) as its sole parameter\&. The function can return another function (the module loader) plus an extra value that will be passed to that loader, or a string explaining why it did not find that module (or nil if it has nothing to say)\&.
+.sp
+Lua initializes this table with four searcher functions\&.
+.sp
+The first searcher simply looks for a loader in the \fBpackage\&.preload\fR table\&.
+.sp
+The second searcher looks for a loader as a Lua library, using the path stored at \fBpackage\&.path\fR\&. The search is done as described in function \fBpackage\&.searchpath\fR\&.
+.sp
+The third searcher looks for a loader as a C library, using the path given by the variable \fBpackage\&.cpath\fR\&. Again, the search is done as described in function \fBpackage\&.searchpath\fR\&. For instance, if the C path is the string
+.sp
+.nf
+      "\&./?\&.so;\&./?\&.dll;/usr/local/?/init\&.so"
+.fi
+.sp
+the searcher for module \fBfoo\fR will try to open the files \fB\&./foo\&.so\fR, \fB\&./foo\&.dll\fR, and \fB/usr/local/foo/init\&.so\fR, in that order\&. Once it finds a C library, this searcher first uses a dynamic link facility to link the application with the library\&. Then it tries to find a C function inside the library to be used as the loader\&. The name of this C function is the string "\fBluaopen_\fR" concatenated with a copy of the module name where each dot is replaced by an underscore\&. Moreover, if the module name has a hyphen, its suffix after (and including) the first hyphen is removed\&. For instance, if the module name is \fBa\&.b\&.c\-v2\&.1\fR, the function name will be \fBluaopen_a_b_c\fR\&.
+.sp
+The fourth searcher tries an all\-in\-one loader\&. It searches the C path for a library for the root name of the given module\&. For instance, when requiring \fBa\&.b\&.c\fR, it will search for a C library for \fBa\fR\&. If found, it looks into it for an open function for the submodule; in our example, that would be \fBluaopen_a_b_c\fR\&. With this facility, a package can pack several C submodules into one single library, with each submodule keeping its original open function\&.
+.sp
+All searchers except the first one (preload) return as the extra value the file name where the module was found, as returned by \fBpackage\&.searchpath\fR\&. The first searcher returns no extra value\&.

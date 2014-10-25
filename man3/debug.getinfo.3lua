@@ -1,0 +1,40 @@
+'\" t
+.\"     Title: debug.getinfo
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "DEBUG\&.GETINFO" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+debug.getinfo \- debug\&.getinfo ([thread,] f [, what])
+.SH "SYNOPSIS"
+.sp
+\fBdebug\&.getinfo ([thread,] f [, what])\fR
+.sp
+Returns a table with information about a function\&. You can give the function directly or you can give a number as the value of \fBf\fR, which means the function running at level \fBf\fR of the call stack of the given thread: level 0 is the current function (\fBgetinfo\fR itself); level 1 is the function that called \fBgetinfo\fR (except for tail calls, which do not count on the stack); and so on\&. If \fBf\fR is a number larger than the number of active functions, then \fBgetinfo\fR returns nil\&.
+.sp
+The returned table can contain all the fields returned by \fBlua_getinfo\fR, with the string \fBwhat\fR describing which fields to fill in\&. The default for \fBwhat\fR is to get all information available, except the table of valid lines\&. If present, the option \fI\fBf\fR\fR adds a field named \fBfunc\fR with the function itself\&. If present, the option \fI\fBL\fR\fR adds a field named \fBactivelines\fR with the table of valid lines\&.
+.sp
+For instance, the expression \fBdebug\&.getinfo(1,"n")\&.name\fR returns a table with a name for the current function, if a reasonable name can be found, and the expression \fBdebug\&.getinfo(print)\fR returns a table with all available information about the \fBprint\fR function\&.

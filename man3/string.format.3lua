@@ -1,0 +1,49 @@
+'\" t
+.\"     Title: string.format
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "STRING\&.FORMAT" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+string.format \- string\&.format (formatstring, \(md\(md\(md)
+.SH "SYNOPSIS"
+.sp
+\fBstring\&.format (formatstring, \(md\(md\(md)\fR
+.sp
+Returns a formatted version of its variable number of arguments following the description given in its first argument (which must be a string)\&. The format string follows the same rules as the ANSI C function \fBsprintf\fR\&. The only differences are that the options/modifiers \fB*\fR, \fBh\fR, \fBL\fR, \fBl\fR, \fBn\fR, and \fBp\fR are not supported and that there is an extra option, \fBq\fR\&. The \fBq\fR option formats a string between double quotes, using escape sequences when necessary to ensure that it can safely be read back by the Lua interpreter\&. For instance, the call
+.sp
+.nf
+      string\&.format(\*(Aq%q\*(Aq, \*(Aqa string with "quotes" and \en new line\*(Aq)
+.fi
+.sp
+may produce the string:
+.sp
+.nf
+      "a string with \e"quotes\e" and \e
+       new line"
+.fi
+.sp
+Options \fBA\fR and \fBa\fR (when available), \fBE\fR, \fBe\fR, \fBf\fR, \fBG\fR, and \fBg\fR all expect a number as argument\&. Options \fBc\fR, \fBd\fR, \fBi\fR, \fBo\fR, \fBu\fR, \fBX\fR, and \fBx\fR expect an integer\&. Option \fBq\fR expects a string; option \fBs\fR expects a string without embedded zeros\&. If the argument to option \fBs\fR is not a string, it is converted to one following the same rules of \fBtostring\fR\&.

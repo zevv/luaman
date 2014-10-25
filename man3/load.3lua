@@ -1,0 +1,48 @@
+'\" t
+.\"     Title: load
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LOAD" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+load \- load (ld [, source [, mode [, env]]])
+.SH "SYNOPSIS"
+.sp
+\fBload (ld [, source [, mode [, env]]])\fR
+.sp
+Loads a chunk\&.
+.sp
+If \fBld\fR is a string, the chunk is this string\&. If \fBld\fR is a function, \fBload\fR calls it repeatedly to get the chunk pieces\&. Each call to \fBld\fR must return a string that concatenates with previous results\&. A return of an empty string, nil, or no value signals the end of the chunk\&.
+.sp
+If there are no syntactic errors, returns the compiled chunk as a function; otherwise, returns nil plus the error message\&.
+.sp
+If the resulting function has upvalues, the first upvalue is set to the value of \fBenv\fR, if that parameter is given, or to the value of the global environment\&. (When you load a main chunk, the resulting function will always have exactly one upvalue, the \fB_ENV\fR variable (see \(sc2\&.2)\&. However, when you load a binary chunk created from a function (see \fBstring\&.dump\fR), the resulting function can have arbitrary upvalues\&.)
+.sp
+\fBsource\fR is used as the source of the chunk for error messages and debug information (see \(sc4\&.9)\&. When absent, it defaults to \fBld\fR, if \fBld\fR is a string, or to "\fB=(load)\fR" otherwise\&.
+.sp
+The string \fBmode\fR controls whether the chunk can be text or binary (that is, a precompiled chunk)\&. It may be the string "\fBb\fR" (only binary chunks), "\fBt\fR" (only text chunks), or "\fBbt\fR" (both binary and text)\&. The default is "\fBbt\fR"\&.
+.sp
+Lua does not check the consistency of binary chunks\&. Maliciously crafted binary chunks can crash the interpreter\&.

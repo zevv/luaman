@@ -1,0 +1,75 @@
+'\" t
+.\"     Title: debug.sethook
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "DEBUG\&.SETHOOK" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+debug.sethook \- debug\&.sethook ([thread,] hook, mask [, count])
+.SH "SYNOPSIS"
+.sp
+\fBdebug\&.sethook ([thread,] hook, mask [, count])\fR
+.sp
+Sets the given function as a hook\&. The string \fBmask\fR and the number \fBcount\fR describe when the hook will be called\&. The string mask may have any combination of the following characters, with the given meaning:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBc\fR\fR: the hook is called every time Lua calls a function;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBr\fR\fR: the hook is called every time Lua returns from a function;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\fBl\fR\fR: the hook is called every time Lua enters a new line of code\&.
+.RE
+.sp
+Moreover, with a \fBcount\fR different from zero, the hook is called also after every \fBcount\fR instructions\&.
+.sp
+When called without arguments, \fBdebug\&.sethook\fR turns off the hook\&.
+.sp
+When the hook is called, its first parameter is a string describing the event that has triggered its call: \fB"call"\fR (or \fB"tail call"\fR), \fB"return"\fR, \fB"line"\fR, and \fB"count"\fR\&. For line events, the hook also gets the new line number as its second parameter\&. Inside a hook, you can call \fBgetinfo\fR with level 2 to get more information about the running function (level 0 is the \fBgetinfo\fR function, and level 1 is the hook function)\&.

@@ -1,0 +1,68 @@
+'\" t
+.\"     Title: lua_alloc
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_ALLOC" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_Alloc \- lua_Alloc
+.SH "SYNOPSIS"
+.sp
+.nf
+ typedef void * (*lua_Alloc) (void *ud,
+                              void *ptr,
+                              size_t osize,
+                              size_t nsize);
+.fi
+.sp
+The type of the memory\-allocation function used by Lua states\&. The allocator function must provide a functionality similar to \fBrealloc\fR, but not exactly the same\&. Its arguments are \fBud\fR, an opaque pointer passed to \fBlua_newstate\fR; \fBptr\fR, a pointer to the block being allocated/reallocated/freed; \fBosize\fR, the original size of the block or some code about what is being allocated; and \fBnsize\fR, the new size of the block\&.
+.sp
+When \fBptr\fR is not \fBNULL\fR, \fBosize\fR is the size of the block pointed by \fBptr\fR, that is, the size given when it was allocated or reallocated\&.
+.sp
+When \fBptr\fR is \fBNULL\fR, \fBosize\fR encodes the kind of object that Lua is allocating\&. \fBosize\fR is any of \fBLUA_TSTRING\fR, \fBLUA_TTABLE\fR, \fBLUA_TFUNCTION\fR, \fBLUA_TUSERDATA\fR, or \fBLUA_TTHREAD\fR when (and only when) Lua is creating a new object of that type\&. When \fBosize\fR is some other value, Lua is allocating memory for something else\&.
+.sp
+Lua assumes the following behavior from the allocator function:
+.sp
+When \fBnsize\fR is zero, the allocator must behave like \fBfree\fR and return \fBNULL\fR\&.
+.sp
+When \fBnsize\fR is not zero, the allocator must behave like \fBrealloc\fR\&. The allocator returns \fBNULL\fR if and only if it cannot fulfill the request\&. Lua assumes that the allocator never fails when \fBosize >= nsize\fR\&.
+.sp
+Here is a simple implementation for the allocator function\&. It is used in the auxiliary library by \fBluaL_newstate\fR\&.
+.sp
+.nf
+      static void *l_alloc (void *ud, void *ptr, size_t osize,
+                                                 size_t nsize) {
+        (void)ud;  (void)osize;  /* not used */
+        if (nsize == 0) {
+          free(ptr);
+          return NULL;
+        }
+        else
+          return realloc(ptr, nsize);
+      }
+.fi
+.sp
+Note that Standard C ensures that \fBfree(NULL)\fR has no effect and that \fBrealloc(NULL,size)\fR is equivalent to \fBmalloc(size)\fR\&. This code assumes that \fBrealloc\fR does not fail when shrinking a block\&. (Although Standard C does not ensure this behavior, it seems to be a safe assumption\&.)

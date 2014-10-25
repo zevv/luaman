@@ -1,0 +1,36 @@
+'\" t
+.\"     Title: error
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "ERROR" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+error \- error (message [, level])
+.SH "SYNOPSIS"
+.sp
+\fBerror (message [, level])\fR Terminates the last protected function called and returns \fBmessage\fR as the error object\&. Function \fBerror\fR never returns\&.
+.sp
+Usually, \fBerror\fR adds some information about the error position at the beginning of the message, if the message is a string\&. The \fBlevel\fR argument specifies how to get the error position\&. With level 1 (the default), the error position is where the \fBerror\fR function was called\&. Level 2 points the error to where the function that called \fBerror\fR was called; and so on\&. Passing a level 0 avoids the addition of error position information to the message\&.

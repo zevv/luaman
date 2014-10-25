@@ -1,0 +1,42 @@
+'\" t
+.\"     Title: lua_integer
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_INTEGER" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_Integer \- lua_Integer
+.SH "SYNOPSIS"
+.sp
+.nf
+ typedef \&.\&.\&. lua_Integer;
+.fi
+.sp
+The type of integers in Lua\&.
+.sp
+By default this type is \fBlong long\fR, (usually a 64\-bit two\-complement integer), but that can be changed to \fBlong\fR or \fBint\fR (usually a 32\-bit two\-complement integer)\&. (See \fBLUA_INT\fR in \fBluaconf\&.h\fR\&.)
+.sp
+Lua also defines the constants \fBLUA_MININTEGER\fR and \fBLUA_MAXINTEGER\fR, with the minimum and the maximum values that fit in this type\&.

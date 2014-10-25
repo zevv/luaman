@@ -1,0 +1,36 @@
+'\" t
+.\"     Title: table.move
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "TABLE\&.MOVE" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+table.move \- table\&.move (a1, f, e, t [,a2])
+.SH "SYNOPSIS"
+.sp
+\fBtable\&.move (a1, f, e, t [,a2])\fR
+.sp
+Moves elements from table \fBa1\fR to table \fBa2\fR\&. This function performs the equivalent to the following multiple assignment: \fBa2[t],\(md\(md\(md = a1[f],\(md\(md\(md,a1[e]\fR\&. The default for \fBa2\fR is \fBa1\fR\&. The destination range can overlap with the source range\&. Index \fBf\fR must be positive\&.

@@ -1,0 +1,48 @@
+'\" t
+.\"     Title: lua_hook
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_HOOK" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_Hook \- lua_Hook
+.SH "SYNOPSIS"
+.sp
+.nf
+ typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
+.fi
+.sp
+Type for debugging hook functions\&.
+.sp
+Whenever a hook is called, its \fBar\fR argument has its field \fBevent\fR set to the specific event that triggered the hook\&. Lua identifies these events with the following constants: \fBLUA_HOOKCALL\fR, \fBLUA_HOOKRET\fR, \fBLUA_HOOKTAILCALL\fR, \fBLUA_HOOKLINE\fR, and \fBLUA_HOOKCOUNT\fR\&. Moreover, for line events, the field \fBcurrentline\fR is also set\&. To get the value of any other field in \fBar\fR, the hook must call \fBlua_getinfo\fR\&.
+.sp
+For call events, \fBevent\fR can be \fBLUA_HOOKCALL\fR, the normal value, or \fBLUA_HOOKTAILCALL\fR, for a tail call; in this case, there will be no corresponding return event\&.
+.sp
+While Lua is running a hook, it disables other calls to hooks\&. Therefore, if a hook calls back Lua to execute a function or a chunk, this execution occurs without any calls to hooks\&.
+.sp
+Hook functions cannot have continuations, that is, they cannot call \fBlua_yieldk\fR, \fBlua_pcallk\fR, or \fBlua_callk\fR with a non\-null \fBk\fR\&.
+.sp
+Hook functions can yield under the following conditions: Only count and line events can yield and they cannot yield any value; to yield a hook function must finish its execution calling \fBlua_yield\fR with \fBnresults\fR equal to zero\&.

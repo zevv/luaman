@@ -1,0 +1,86 @@
+'\" t
+.\"     Title: lua_pushfstring
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_PUSHFSTRING" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_pushfstring \- lua_pushfstring
+.SH "SYNOPSIS"
+.sp
+[\-0, +1, e]
+.sp
+.nf
+ const char *lua_pushfstring (lua_State *L, const char *fmt, \&.\&.\&.);
+.fi
+.sp
+Pushes onto the stack a formatted string and returns a pointer to this string\&. It is similar to the ANSI C function \fBsprintf\fR, but has some important differences:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+You do not have to allocate space for the result: the result is a Lua string and Lua takes care of memory allocation (and deallocation, through garbage collection)\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+The conversion specifiers are quite restricted\&. There are no flags, widths, or precisions\&. The conversion specifiers can only be
+\fI\fB%%\fR\fR
+(inserts the character
+\fI\fB%\fR\fR),
+\fI\fB%s\fR\fR
+(inserts a zero\-terminated string, with no size restrictions),
+\fI\fB%f\fR\fR
+(inserts a
+\fBlua_Number\fR),
+\fI\fB%L\fR\fR
+(inserts a
+\fBlua_Integer\fR),
+\fI\fB%p\fR\fR
+(inserts a pointer as a hexadecimal numeral),
+\fI\fB%d\fR\fR
+(inserts an
+\fBint\fR),
+\fI\fB%c\fR\fR
+(inserts an
+\fBint\fR
+as a one\-byte character), and
+\fI\fB%U\fR\fR
+(inserts a
+\fBlong int\fR
+as a UTF\-8 byte sequence)\&.
+.RE

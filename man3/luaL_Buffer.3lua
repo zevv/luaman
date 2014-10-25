@@ -1,0 +1,147 @@
+'\" t
+.\"     Title: lual_buffer
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUAL_BUFFER" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+luaL_Buffer \- luaL_Buffer
+.SH "SYNOPSIS"
+.sp
+.nf
+ typedef struct luaL_Buffer luaL_Buffer;
+.fi
+.sp
+Type for a string buffer\&.
+.sp
+A string buffer allows C code to build Lua strings piecemeal\&. Its pattern of use is as follows:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+First declare a variable
+\fBb\fR
+of type
+\fBluaL_Buffer\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Then initialize it with a call
+\fBluaL_buffinit(L, &b)\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Then add string pieces to the buffer calling any of the
+\fBluaL_add\fR* functions\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Finish by calling
+\fBluaL_pushresult(&b)\fR\&. This call leaves the final string on the top of the stack\&.
+.RE
+.sp
+If you know beforehand the total size of the resulting string, you can use the buffer like this:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+First declare a variable
+\fBb\fR
+of type
+\fBluaL_Buffer\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Then initialize it and preallocate a space of size
+\fBsz\fR
+with a call
+\fBluaL_buffinitsize(L, &b, sz)\fR\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Then copy the string into that space\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Finish by calling
+\fBluaL_pushresultsize(&b, sz)\fR, where
+\fBsz\fR
+is the total size of the resulting string copied into that space\&.
+.RE
+.sp
+During its normal operation, a string buffer uses a variable number of stack slots\&. So, while using a buffer, you cannot assume that you know where the top of the stack is\&. You can use the stack between successive calls to buffer operations as long as that use is balanced; that is, when you call a buffer operation, the stack is at the same level it was immediately after the previous buffer operation\&. (The only exception to this rule is \fBluaL_addvalue\fR\&.) After calling \fBluaL_pushresult\fR the stack is back to its level when the buffer was initialized, plus the final string on its top\&.

@@ -1,0 +1,36 @@
+'\" t
+.\"     Title: table.concat
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "TABLE\&.CONCAT" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+table.concat \- table\&.concat (list [, sep [, i [, j]]])
+.SH "SYNOPSIS"
+.sp
+\fBtable\&.concat (list [, sep [, i [, j]]])\fR
+.sp
+Given a list where all elements are strings or numbers, returns the string \fBlist[i]\&.\&.sep\&.\&.list[i+1] \(md\(md\(md sep\&.\&.list[j]\fR\&. The default value for \fBsep\fR is the empty string, the default for \fBi\fR is 1, and the default for \fBj\fR is \fB#list\fR\&. If \fBi\fR is greater than \fBj\fR, returns the empty string\&.

@@ -1,0 +1,45 @@
+'\" t
+.\"     Title: lual_stream
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUAL_STREAM" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+luaL_Stream \- luaL_Stream
+.SH "SYNOPSIS"
+.sp
+.nf
+ typedef struct luaL_Stream {
+   FILE *f;
+   lua_CFunction closef;
+ } luaL_Stream;
+.fi
+.sp
+The standard representation for file handles, which is used by the standard I/O library\&.
+.sp
+A file handle is implemented as a full userdata, with a metatable called \fBLUA_FILEHANDLE\fR\&. \fBLUA_FILEHANDLE\fR is a macro with the actual metatable\(cqs name\&. The metatable is created by the I/O library (see \fBluaL_newmetatable\fR)\&.
+.sp
+This userdata must start with the structure \fBluaL_Stream\fR; it can contain other data after this initial structure\&. Field \fBf\fR points to the corresponding C stream (or it can be \fBNULL\fR to indicate an incompletely created handle)\&. Field \fBclosef\fR points to a Lua function that will be called to close the stream when the handle is closed or collected; this function receives the file handle as its sole argument and must return either true (in case of success) or nil plus an error message (in case of error)\&. Once Lua calls this field, the field value is changed to \fBNULL\fR to signal that the handle is closed\&.

@@ -1,0 +1,42 @@
+'\" t
+.\"     Title: lua_getupvalue
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUA_GETUPVALUE" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lua_getupvalue \- lua_getupvalue
+.SH "SYNOPSIS"
+.sp
+[\-0, +(0|1), \(en]
+.sp
+.nf
+ const char *lua_getupvalue (lua_State *L, int funcindex, int n);
+.fi
+.sp
+Gets information about a closure\(cqs upvalue\&. (For Lua functions, upvalues are the external local variables that the function uses, and that are consequently included in its closure\&.) \fBlua_getupvalue\fR gets the index \fBn\fR of an upvalue, pushes the upvalue\(cqs value onto the stack, and returns its name\&. \fBfuncindex\fR points to the closure in the stack\&. (Upvalues have no particular order, as they are active through the whole function\&. So, they are numbered in an arbitrary order\&.)
+.sp
+Returns \fBNULL\fR (and pushes nothing) when the index is greater than the number of upvalues\&. For C functions, this function uses the empty string \fB""\fR as a name for all upvalues\&.

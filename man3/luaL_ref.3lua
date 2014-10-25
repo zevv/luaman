@@ -1,0 +1,44 @@
+'\" t
+.\"     Title: lual_ref
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 10/25/2014
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "LUAL_REF" "3lua" "10/25/2014" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+luaL_ref \- luaL_ref
+.SH "SYNOPSIS"
+.sp
+[\-1, +0, e]
+.sp
+.nf
+ int luaL_ref (lua_State *L, int t);
+.fi
+.sp
+Creates and returns a reference, in the table at index \fBt\fR, for the object at the top of the stack (and pops the object)\&.
+.sp
+A reference is a unique integer key\&. As long as you do not manually add integer keys into table \fBt\fR, \fBluaL_ref\fR ensures the uniqueness of the key it returns\&. You can retrieve an object referred by reference \fBr\fR by calling \fBlua_rawgeti(L, t, r)\fR\&. Function \fBluaL_unref\fR frees a reference and its associated object\&.
+.sp
+If the object at the top of the stack is nil, \fBluaL_ref\fR returns the constant \fBLUA_REFNIL\fR\&. The constant \fBLUA_NOREF\fR is guaranteed to be different from any reference returned by \fBluaL_ref\fR\&.
