@@ -46,12 +46,12 @@ end
 function read_html(url)
 	local esc = {
 		ndash = "-", middot = "·", nbsp = " ", sect = "§", amp = "&", le = "≤",
-		lt = "<", gt = ">", copy = "©", lsquo = "‘", rsquo = "’",
+		lt = "<", gt = ">", copy = "©", lsquo = "‘", rsquo = "’", acute = "´",
 	}
 	local fd = io.popen("curl -s " .. url .. " | tidy -wrap 9999 -q -i -asxml", "r")
 	local html = fd:read("*a")
 	fd:close()
-	return html:gsub("&(.-);", function(v) return esc[v] or utf8.char(v:sub(2)) end)
+	return html:gsub("&([%w]+);", function(v) return esc[v] or utf8.char(v:sub(2)) end)
 end
 
 
