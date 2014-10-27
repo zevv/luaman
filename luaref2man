@@ -52,7 +52,9 @@ function read_html(url)
 	local fd = io.popen("curl -s " .. url .. " | tidy -wrap 9999 -q -i -asxml", "r")
 	local html = fd:read("*a")
 	fd:close()
-	return html:gsub("&([%w]+);", function(v) return esc[v] or utf8.char(v:sub(2)) end)
+	html = html:gsub("&([%w]+);", esc)
+	html = html:gsub("&#([%d]+);", utf8.char)
+	return html
 end
 
 
@@ -60,14 +62,14 @@ end
 -- Find all API sections and pass to function
 --
 
-function find_sections(html, fn)
+function find_sections(html, fn, fndata)
 	local po, plevel, ptitle = 1, "", ""
 	while true do
 		local o1, o2, level, title = html:find("<h(%d)>(.-)</h%d>", po)
 		if not o1 then break end
 		local name = ptitle:match("<code>(.-)</code>")
 		if level == '3' and name then 
-			fn(name, html:sub(po, o1)) 
+			fn(name, html:sub(po, o1), fndata) 
 		end
 		po, plevel, ptitle = o2 +1, level, title
 	end
@@ -78,7 +80,7 @@ end
 -- Generate man page for given section
 --
 
-function gen_asciidoc(title, html)
+function gen_asciidoc(title, html, date)
 	
 	print(title)
 
@@ -90,6 +92,7 @@ function gen_asciidoc(title, html)
 	local tmp = name:upper() .. "(3lua)"
 	p(tmp .. "\n")
 	p(string.rep("=", #tmp) .. "\n")
+	p(":Date: " .. date .. "\n")
 	p("\n")
 
 	p("== NAME\n");
@@ -142,8 +145,10 @@ end
 --
 
 local html = read_html(arg[1])
+local date = html:match("manual.of,v %d.%d+ (%d+/%d+/%d+)")
+
 os.execute("mkdir -p man3")
-find_sections(html, gen_asciidoc)
+find_sections(html, gen_asciidoc, date)
 os.execute("ls man3/*txt | xargs -n1 -P6 a2x -L --doctype manpage --format manpage")
 os.execute("rm man3/*.txt")
 
