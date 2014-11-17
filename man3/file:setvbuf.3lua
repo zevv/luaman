@@ -1,5 +1,5 @@
 '\" t
-.\"     Title: file
+.\"     Title: file:setvbuf
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
 .\"      Date: 2014/10/22
@@ -7,7 +7,7 @@
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "FILE" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "FILE:SETVBUF" "3lua" "2014/10/22" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -28,7 +28,7 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-file \- file:setvbuf (mode [, size])
+file:setvbuf \- file:setvbuf (mode [, size])
 .SH "SYNOPSIS"
 .sp
 \fBfile:setvbuf (mode [, size])\fR

@@ -84,7 +84,7 @@ function gen_asciidoc(title, html, date)
 	
 	print(title)
 
-	local name = title:match("([%w_%.]+)")
+	local name = title:match("([%w_%.:]+)")
 
 	local fd = io.open("man3/" .. name .. ".txt", "w")
 	local function p(s) fd:write(s) end

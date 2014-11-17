@@ -1,0 +1,73 @@
+'\" t
+.\"     Title: file:seek
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 2014/10/22
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "FILE:SEEK" "3lua" "2014/10/22" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+file:seek \- file:seek ([whence [, offset]])
+.SH "SYNOPSIS"
+.sp
+\fBfile:seek ([whence [, offset]])\fR
+.sp
+Sets and gets the file position, measured from the beginning of the file, to the position given by \fBoffset\fR plus a base specified by the string \fBwhence\fR, as follows:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+"\fBset\fR": base is position 0 (beginning of the file);
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+"\fBcur\fR": base is current position;
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+"\fBend\fR": base is end of file;
+.RE
+.sp
+In case of success, \fBseek\fR returns the final file position, measured in bytes from the beginning of the file\&. If \fBseek\fR fails, it returns nil, plus a string describing the error\&.
+.sp
+The default value for \fBwhence\fR is \fB"cur"\fR, and for \fBoffset\fR is 0\&. Therefore, the call \fBfile:seek()\fR returns the current file position, without changing it; the call \fBfile:seek("set")\fR sets the position to the beginning of the file (and returns 0); and the call \fBfile:seek("end")\fR sets the position to the end of the file, and returns its size\&.

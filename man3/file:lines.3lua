@@ -1,0 +1,44 @@
+'\" t
+.\"     Title: file:lines
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 2014/10/22
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "FILE:LINES" "3lua" "2014/10/22" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+file:lines \- file:lines (\(md\(md\(md)
+.SH "SYNOPSIS"
+.sp
+\fBfile:lines (\(md\(md\(md)\fR
+.sp
+Returns an iterator function that, each time it is called, reads the file according to the given formats\&. When no format is given, uses "\fBl\fR" as a default\&. As an example, the construction
+.sp
+.nf
+      for c in file:lines(1) do  body  end
+.fi
+.sp
+will iterate over all characters of the file, starting at the current position\&. Unlike \fBio\&.lines\fR, this function does not close the file when the loop ends\&.
+.sp
+In case of errors this function raises the error, instead of returning an error code\&.
