@@ -2,12 +2,12 @@
 .\"     Title: utf8.len
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 2014/10/22
+.\"      Date: 2015/01/06
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "UTF8\&.LEN" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "UTF8\&.LEN" "3lua" "2015/01/06" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,4 +31,4 @@
 utf8.len \- utf8\&.len (s [, i [, j]])
 .SH "SYNOPSIS"
 .sp
-\fButf8\&.len (s [, i [, j]])\fR
+\fButf8\&.len (s [, i [, j]])\fR Returns the number of UTF\-8 characters in string \fBs\fR that start between positions \fBi\fR and \fBj\fR (both inclusive)\&. The default for \fBi\fR is 1 and for \fBj\fR is \-1\&. If it finds any invalid byte sequence, returns a false value plus the position of the first invalid byte\&.

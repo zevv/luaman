@@ -2,12 +2,12 @@
 .\"     Title: os.difftime
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 2014/10/22
+.\"      Date: 2015/01/06
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "OS\&.DIFFTIME" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "OS\&.DIFFTIME" "3lua" "2015/01/06" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -33,4 +33,4 @@ os.difftime \- os\&.difftime (t2, t1)
 .sp
 \fBos\&.difftime (t2, t1)\fR
 .sp
-Returns the number of seconds from time \fBt1\fR to time \fBt2\fR\&. In POSIX, Windows, and some other systems, this value is exactly \fBt2\fR\-\fBt1\fR\&.
+Returns the difference, in seconds, from time \fBt1\fR to time \fBt2\fR (where the times are values returned by \fBos\&.time\fR)\&. In POSIX, Windows, and some other systems, this value is exactly \fBt2\fR\-\fBt1\fR\&.

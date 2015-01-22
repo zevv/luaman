@@ -2,12 +2,12 @@
 .\"     Title: lua_load
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 2014/10/22
+.\"      Date: 2015/01/06
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "LUA_LOAD" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "LUA_LOAD" "3lua" "2015/01/06" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,13 +31,13 @@
 lua_load \- lua_load
 .SH "SYNOPSIS"
 .sp
-[\-0, +1, \(en]
+[\-0, +1, \-]
 .sp
 .nf
  int lua_load (lua_State *L,
                lua_Reader reader,
                void *data,
-               const char *source,
+               const char *chunkname,
                const char *mode);
 .fi
 .sp
@@ -93,10 +93,10 @@ metamethod\&. (This error has no relation with the chunk being loaded\&. It is g
 .sp
 The \fBlua_load\fR function uses a user\-supplied \fBreader\fR function to read the chunk (see \fBlua_Reader\fR)\&. The \fBdata\fR argument is an opaque value passed to the reader function\&.
 .sp
-The \fBsource\fR argument gives a name to the chunk, which is used for error messages and in debug information (see \(sc4\&.9)\&.
+The \fBchunkname\fR argument gives a name to the chunk, which is used for error messages and in debug information (see \(sc4\&.9)\&.
 .sp
 \fBlua_load\fR automatically detects whether the chunk is text or binary and loads it accordingly (see program \fBluac\fR)\&. The string \fBmode\fR works as in function \fBload\fR, with the addition that a \fBNULL\fR value is equivalent to the string "\fBbt\fR"\&.
 .sp
 \fBlua_load\fR uses the stack internally, so the reader function must always leave the stack unmodified when returning\&.
 .sp
-If the resulting function has one upvalue, this upvalue is set to the value of the global environment stored at index \fBLUA_RIDX_GLOBALS\fR in the registry (see \(sc4\&.5)\&. When loading main chunks, this upvalue will be the \fB_ENV\fR variable (see \(sc2\&.2)\&.
+If the resulting function has upvalues, its first upvalue is set to the value of the global environment stored at index \fBLUA_RIDX_GLOBALS\fR in the registry (see \(sc4\&.5)\&. When loading main chunks, this upvalue will be the \fB_ENV\fR variable (see \(sc2\&.2)\&. Other upvalues are initialized with nil\&.

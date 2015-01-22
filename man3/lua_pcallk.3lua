@@ -2,12 +2,12 @@
 .\"     Title: lua_pcallk
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 2014/10/22
+.\"      Date: 2015/01/06
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "LUA_PCALLK" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "LUA_PCALLK" "3lua" "2015/01/06" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,13 +31,13 @@
 lua_pcallk \- lua_pcallk
 .SH "SYNOPSIS"
 .sp
-[\-(nargs + 1), +(nresults|1), \(en]
+[\-(nargs + 1), +(nresults|1), \-]
 .sp
 .nf
  int lua_pcallk (lua_State *L,
                  int nargs,
                  int nresults,
-                 int errfunc,
+                 int msgh,
                  lua_KContext ctx,
                  lua_KFunction k);
 .fi

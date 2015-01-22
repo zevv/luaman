@@ -2,12 +2,12 @@
 .\"     Title: lua_getlocal
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 2014/10/22
+.\"      Date: 2015/01/06
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "LUA_GETLOCAL" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "LUA_GETLOCAL" "3lua" "2015/01/06" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,10 +31,10 @@
 lua_getlocal \- lua_getlocal
 .SH "SYNOPSIS"
 .sp
-[\-0, +(0|1), \(en]
+[\-0, +(0|1), \-]
 .sp
 .nf
- const char *lua_getlocal (lua_State *L, lua_Debug *ar, int n);
+ const char *lua_getlocal (lua_State *L, const lua_Debug *ar, int n);
 .fi
 .sp
 Gets information about a local variable of a given activation record or a given function\&.

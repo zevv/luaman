@@ -2,12 +2,12 @@
 .\"     Title: lual_loadbufferx
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 2014/10/22
+.\"      Date: 2015/01/06
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "LUAL_LOADBUFFERX" "3lua" "2014/10/22" "\ \&" "\ \&"
+.TH "LUAL_LOADBUFFERX" "3lua" "2015/01/06" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,7 +31,7 @@
 luaL_loadbufferx \- luaL_loadbufferx
 .SH "SYNOPSIS"
 .sp
-[\-0, +1, \(en]
+[\-0, +1, \-]
 .sp
 .nf
  int luaL_loadbufferx (lua_State *L,
