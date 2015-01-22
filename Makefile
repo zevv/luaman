@@ -6,3 +6,6 @@ all:
 
 clean:
 	rm -rf man3
+
+dist:
+	tar -zcf /tmp/luaman-5.3.tgz man3
